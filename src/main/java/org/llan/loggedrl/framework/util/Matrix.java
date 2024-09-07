@@ -64,7 +64,7 @@ public class Matrix {
         return result;
     }
 
-    public Matrix add(Matrix other){
+    public Matrix plus(Matrix other){
         if(getRows() != other.getRows() || getCols() != other.getCols()){
             throw new IllegalArgumentException("Matrix dimensions do not match");
         }

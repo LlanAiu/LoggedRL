@@ -1,8 +1,8 @@
 package org.llan.loggedrl.framework.example;
 
 import org.llan.loggedrl.framework.environment.Action;
+import org.llan.loggedrl.framework.environment.State;
 import org.llan.loggedrl.framework.policies.Policy;
-import org.llan.loggedrl.framework.policies.RandomPolicy;
 
 import java.util.List;
 
@@ -12,14 +12,17 @@ public class Player {
 
     public Player(int id){
         _id = id;
-        _policy = new RandomPolicy();
+    }
+
+    public void setPolicy(Policy policy){
+        _policy = policy;
     }
 
     public int getId(){
         return _id;
     }
 
-    public Action selectAction(List<Action> moves){
-        return _policy.getAction(moves);
+    public Action selectAction(List<Action> moves, State state){
+        return _policy.getAction(moves, state);
     }
 }

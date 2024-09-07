@@ -14,8 +14,8 @@ public abstract class State {
         return _environment;
     }
 
-    public void setTransition(boolean transition){
-        _shouldTransition = transition;
+    public void queueTransition(){
+        _shouldTransition = true;
     }
 
     public boolean shouldTransition() {
@@ -27,4 +27,5 @@ public abstract class State {
     public abstract List<Action> getActions();
     public abstract void periodic();
     public abstract void transition();
+    public abstract State copy(Environment copyEnvironment);
 }

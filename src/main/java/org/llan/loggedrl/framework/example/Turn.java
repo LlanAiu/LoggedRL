@@ -1,6 +1,7 @@
 package org.llan.loggedrl.framework.example;
 
 import org.llan.loggedrl.framework.environment.Action;
+import org.llan.loggedrl.framework.environment.Environment;
 import org.llan.loggedrl.framework.environment.Feature;
 import org.llan.loggedrl.framework.environment.State;
 
@@ -31,6 +32,10 @@ public class Turn extends State {
         return actions;
     }
 
+    public int getPlayerId(){
+        return _player.getId();
+    }
+
     @Override
     public boolean isTerminal() {
         return false;
@@ -38,18 +43,33 @@ public class Turn extends State {
 
     @Override
     public Feature getFeature() {
-        return null;
+        Feature feature = new Feature(Constants.FEATURE_LENGTH);
+        for(int p = 0; p < 2; p++){
+            for(int i = 0; i < 6; i++){
+                for(int j = 0; j < 7; j++){
+                    if(p == 0){
+                        feature.setValue(i * 7 + j, ((ConnectFour) _environment).getBoard().getValue(i, j) == _player.getId() ? 1 : 0);
+                    } else {
+                        feature.setValue(i * 7 + j + 42, ((ConnectFour) _environment).getBoard().getValue(i, j) == -_player.getId() ? 1 : 0);
+                    }
+                }
+            }
+        }
+        return feature;
     }
 
     @Override
     public void periodic() {
-        Action selected = _player.selectAction(getActions());
+        Action selected = _player.selectAction(getActions(), this);
         selected.execute();
-        setTransition(true);
+        System.out.println("Player " + _player.getId() + " played " + ((TurnAction) selected).getColumn());
     }
+
+
 
     @Override
     public void transition() {
+        System.out.println("Board: \n" + ((ConnectFour) _environment).getBoard().toString());
         if(((ConnectFour) _environment).getBoard().checkWin(_player.getId()) || _turnNumber == 41){
             _environment.setState(new End((ConnectFour) _environment));
             return;
@@ -59,5 +79,10 @@ public class Turn extends State {
                 _turnNumber + 1,
                 (ConnectFour) _environment)
         );
+    }
+
+    @Override
+    public State copy(Environment copyEnvironment) {
+        return new Turn(_player, _turnNumber, (ConnectFour) copyEnvironment);
     }
 }

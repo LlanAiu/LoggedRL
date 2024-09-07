@@ -8,4 +8,6 @@ public abstract class Action {
     }
 
     public abstract void execute();
+
+    public abstract Action copy(Environment copyEnvironment);
 }

@@ -19,5 +19,6 @@ public abstract class Environment {
 
     public void setState(State state) {
         _currentState = state;
+        _setInitialState = true;
     }
 }
