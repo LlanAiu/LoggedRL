@@ -1,19 +1,23 @@
 package org.llan.loggedrl.framework.environment;
 
 public abstract class Environment {
-    public State _currentState;
+    State _currentState;
+    boolean _setInitialState;
 
-    public Environment(State initialState) {
-        _currentState = initialState;
+    public Environment(){
+        _setInitialState = false;
     }
 
-    public void setState(State newState) {
-        _currentState = newState;
+    public void setInitialState(State initialState) {
+        _currentState = initialState;
+        _setInitialState = true;
     }
 
     public State getState() {
         return _currentState;
     }
 
-    public abstract State nextState(Action action);
+    public void setState(State state) {
+        _currentState = state;
+    }
 }
