@@ -4,6 +4,7 @@ import org.llan.loggedrl.framework.environment.Action;
 import org.llan.loggedrl.framework.environment.Environment;
 import org.llan.loggedrl.framework.environment.Feature;
 import org.llan.loggedrl.framework.environment.State;
+import org.llan.loggedrl.framework.logging.TimeStep;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,11 +12,13 @@ import java.util.List;
 public class Turn extends State {
     private Player _player;
     private int _turnNumber;
+    private TimeStep step;
 
     public Turn(Player player, int turnNumber, ConnectFour game){
         super(game);
         _player = player;
         _turnNumber = turnNumber;
+        step = new TimeStep(_turnNumber, this);
     }
 
     @Override
@@ -30,10 +33,6 @@ public class Turn extends State {
             }
         }
         return actions;
-    }
-
-    public int getPlayerId(){
-        return _player.getId();
     }
 
     @Override
@@ -61,6 +60,7 @@ public class Turn extends State {
     @Override
     public void periodic() {
         Action selected = _player.selectAction(getActions(), this);
+        step.setAction(selected);
         selected.execute();
         System.out.println("Player " + _player.getId() + " played " + ((TurnAction) selected).getColumn());
     }
@@ -79,6 +79,8 @@ public class Turn extends State {
                 _turnNumber + 1,
                 (ConnectFour) _environment)
         );
+        step.setReward(_environment.getReward(_player.getId()));
+        ((ConnectFour) _environment).record(_player.getId(), step);
     }
 
     @Override

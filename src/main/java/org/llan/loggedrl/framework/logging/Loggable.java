@@ -1,4 +1,4 @@
-package org.llan.loggedrl.framework.loggable;
+package org.llan.loggedrl.framework.logging;
 
 public interface Loggable {
     void toLog();

@@ -21,4 +21,6 @@ public abstract class Environment {
         _currentState = state;
         _setInitialState = true;
     }
+
+    public abstract double getReward(int perspective);
 }

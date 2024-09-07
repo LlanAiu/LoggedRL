@@ -2,12 +2,15 @@ package org.llan.loggedrl.framework.example;
 
 import org.llan.loggedrl.framework.environment.EpisodicEnvironment;
 import org.llan.loggedrl.framework.environment.State;
+import org.llan.loggedrl.framework.logging.Record;
+import org.llan.loggedrl.framework.logging.TimeStep;
 import org.llan.loggedrl.framework.model.Modelled;
 
 public class ConnectFour extends EpisodicEnvironment implements Modelled<ConnectFour> {
     Player player1;
     Player player2;
     Board board;
+    Record record;
 
     public ConnectFour(){
         player1 = new Player(Constants.PLAYER1);
@@ -16,6 +19,7 @@ public class ConnectFour extends EpisodicEnvironment implements Modelled<Connect
         player2.setPolicy(new ConnectFourPolicy(0.05, player2, this));
         board = new Board();
         setInitialState(new Turn(player1, 0, this));
+        record = new Record(2);
     }
 
     public ConnectFour(Player player1, Player player2, Board board){
@@ -49,6 +53,23 @@ public class ConnectFour extends EpisodicEnvironment implements Modelled<Connect
         } else {
             return 0;
         }
+    }
+
+    public void record(int player, TimeStep step){
+        record.addTimeStep(player, step);
+    }
+
+    @Override
+    public double getReward(int perspective) {
+        if(getState().isTerminal()){
+            int winningIndex = getWinner();
+            if(winningIndex == 0){
+                return Constants.DRAW;
+            } else {
+                return winningIndex == perspective ? Constants.WIN : -Constants.LOSS;
+            }
+        }
+        return 0;
     }
 
     public void onEnd(){
