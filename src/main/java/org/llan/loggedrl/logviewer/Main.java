@@ -1,4 +1,4 @@
-package org.example.loggedrl.logviewer;
+package org.llan.loggedrl.logviewer;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

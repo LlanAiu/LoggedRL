@@ -1,4 +1,4 @@
-package org.example.loggedrl.logviewer;
+package org.llan.loggedrl.logviewer;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

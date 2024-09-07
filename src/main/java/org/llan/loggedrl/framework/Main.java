@@ -1,4 +1,4 @@
-package org.example.loggedrl.framework;
+package org.llan.loggedrl.framework;
 
 public class Main {
 
