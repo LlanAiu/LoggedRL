@@ -9,7 +9,7 @@ public class ConnectFourPolicy extends EpsilonGreedy {
     private int _playerId;
 
     public ConnectFourPolicy(double epsilon, Player player, ConnectFour game) {
-        super(epsilon);
+        super(epsilon, player.getId() - 1);
         _playerId = player.getId();
         setValueFunction(new ConnectFourFunction(player, game));
         loadParams();

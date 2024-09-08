@@ -1,20 +1,33 @@
 package org.llan.loggedrl.framework.logging;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Logs {
+    private final int DEFAULT_LOGGED_FIELDS = 5;
     private List<Double> _gradientNorms;
     private List<Double> _rewards;
     private List<Double> _averageRewards;
 
+    private Map<String, List<Double>> _loggedValues;
+
     private int _perspective;
 
     public Logs(int perspective){
+        _loggedValues = new HashMap<>();
         _gradientNorms = new ArrayList<>();
         _rewards = new ArrayList<>();
         _averageRewards = new ArrayList<>();
         _perspective = perspective;
+    }
+
+    public void log(String key, Double value){
+        if(!_loggedValues.containsKey(key)){
+            _loggedValues.put(key, new ArrayList<>());
+        }
+        _loggedValues.get(key).add(value);
     }
 
     public void logGradientNorm(Double norm){
@@ -59,7 +72,17 @@ public class Logs {
             }
         }
         sb.append("\n");
-
+        for(String key : _loggedValues.keySet()){
+            sb.append(key + ": ");
+            List values = _loggedValues.get(key);
+            for(int i = 0; i < values.size(); i++){
+                sb.append(values.get(i));
+                if(i < values.size() - 1){
+                    sb.append(",");
+                }
+            }
+            sb.append("\n");
+        }
         return sb.toString();
     }
 }

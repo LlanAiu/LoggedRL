@@ -1,8 +1,6 @@
 package org.llan.loggedrl.logviewer.ui;
 
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
@@ -20,6 +18,7 @@ public class Sidebar {
         _root.setPrefSize(UIConstants.SIDEBAR_WIDTH, UIConstants.WINDOW_HEIGHT);
         _root.setBackground(Background.fill(Color.LIGHTGRAY));
         _root.setSpacing(UIConstants.SIDEBAR_SPACING);
+        _root.setPadding(UIConstants.SIDEBAR_PADDING);
     }
 
     public void setLogSize(int perspectives){
@@ -29,12 +28,9 @@ public class Sidebar {
         }
         _logSelector.getSelectionModel().select(0);
 
-        _logSelector.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                String perspective = _logSelector.getValue().split(" ")[1];
-                LogViewer.getInstance().changeLogIndex(Integer.parseInt(perspective));
-            }
+        _logSelector.setOnAction(actionEvent -> {
+            String perspective = _logSelector.getValue().split(" ")[1];
+            LogViewer.getInstance().changeLogIndex(Integer.parseInt(perspective));
         });
 
         _logSelector.setPrefWidth(UIConstants.SIDEBAR_WIDTH);

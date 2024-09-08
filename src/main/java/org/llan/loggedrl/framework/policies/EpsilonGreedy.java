@@ -2,6 +2,7 @@ package org.llan.loggedrl.framework.policies;
 
 import org.llan.loggedrl.framework.environment.Action;
 import org.llan.loggedrl.framework.environment.State;
+import org.llan.loggedrl.framework.logging.RLLogger;
 
 import java.util.List;
 
@@ -10,6 +11,11 @@ public class EpsilonGreedy extends Policy{
 
     public EpsilonGreedy(double epsilon) {
         _epsilon = epsilon;
+    }
+
+    public EpsilonGreedy(double epsilon, int perspective) {
+        _epsilon = epsilon;
+        _perspective = perspective;
     }
 
     public double getEpsilon() {
@@ -22,6 +28,7 @@ public class EpsilonGreedy extends Policy{
 
     @Override
     public Action getAction(List<Action> actions, State state) {
+        RLLogger.getInstance().recordDouble(_perspective, "epsilon", _epsilon);
         if (Math.random() < _epsilon) {
             _epsilon *= 0.99;
             return actions.get((int)(Math.random() * actions.size()));

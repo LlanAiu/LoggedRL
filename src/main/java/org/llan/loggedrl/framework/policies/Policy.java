@@ -8,6 +8,7 @@ import java.util.List;
 
 public abstract class Policy {
     Function _valueFunction;
+    int _perspective;
 
     public void setValueFunction(Function valueFunction) {
         this._valueFunction = valueFunction;

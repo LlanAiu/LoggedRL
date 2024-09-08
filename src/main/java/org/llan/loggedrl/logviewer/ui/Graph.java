@@ -25,6 +25,7 @@ public class Graph {
                 series.getData().add(new XYChart.Data<>(i, data.get(i)));
             }
 
+            _lineChart.setLegendVisible(false);
             _lineChart.getData().add(series);
         }
 

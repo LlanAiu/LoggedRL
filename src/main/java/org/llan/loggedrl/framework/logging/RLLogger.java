@@ -32,6 +32,10 @@ public class RLLogger {
         _logs[0] = new Logs(0);
     }
 
+    public void recordDouble(int perspective, String key, double value){
+        _logs[perspective].log(key, value);
+    }
+
     public void logGradient(int perspective, double norm){
         _logs[perspective].logGradientNorm(norm);
     }
