@@ -27,4 +27,6 @@ public abstract class Environment {
     public abstract double getReward(int perspective);
 
     public abstract Record getRecord();
+
+    public abstract Environment frozenCopy();
 }

@@ -8,6 +8,7 @@ import java.util.List;
 
 public class EpsilonGreedy extends Policy{
     private double _epsilon;
+    private double _epsilonDecay = 0.99;
 
     public EpsilonGreedy(double epsilon) {
         _epsilon = epsilon;
@@ -26,11 +27,15 @@ public class EpsilonGreedy extends Policy{
         _epsilon = epsilon;
     }
 
+    public void setEpsilonDecay(double epsilonDecay) {
+        _epsilonDecay = epsilonDecay;
+    }
+
     @Override
     public Action getAction(List<Action> actions, State state) {
         RLLogger.getInstance().recordDouble(_perspective, "epsilon", _epsilon);
         if (Math.random() < _epsilon) {
-            _epsilon *= 0.99;
+            _epsilon *= _epsilonDecay;
             return actions.get((int)(Math.random() * actions.size()));
         } else {
             Action bestAction = actions.get(0);

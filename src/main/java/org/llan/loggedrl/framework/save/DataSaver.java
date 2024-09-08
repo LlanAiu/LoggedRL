@@ -29,6 +29,9 @@ public class DataSaver {
                 rows.add(row);
             }
             int numRows = rows.size();
+            if(numRows == 0){
+                return null;
+            }
             int numCols = rows.get(0).length;
             Matrix matrix = new Matrix(numRows, numCols);
             for (int i = 0; i < numRows; i++) {

@@ -42,7 +42,7 @@ public class Turn extends State {
 
     @Override
     public Feature getFeature() {
-        Feature feature = new Feature(Constants.FEATURE_LENGTH);
+        Feature feature = new Feature(AIConstants.FEATURE_LENGTH);
         int otherId = ((ConnectFour) _environment).getOther(_player).getId();
         for(int p = 0; p < 2; p++){
             for(int i = 0; i < 6; i++){
@@ -81,8 +81,15 @@ public class Turn extends State {
             );
         }
         step.setReward(_environment.getReward(_player.getId()));
-        ((ConnectFour) _environment).record(_player.getId(), step);
+        ConnectFour main = (ConnectFour) _environment;
+        freeze();
+        main.record(_player.getId(), step);
         CFIterator.getInstance().update(_player.getId());
+    }
+
+    @Override
+    public void freeze() {
+        this._environment = this._environment.frozenCopy();
     }
 
     @Override

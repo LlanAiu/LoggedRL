@@ -6,8 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 public class Logs {
-    private final int DEFAULT_LOGGED_FIELDS = 5;
     private List<Double> _gradientNorms;
+    private List<Double> _gradients;
+
     private List<Double> _rewards;
     private List<Double> _averageRewards;
 
@@ -17,6 +18,7 @@ public class Logs {
 
     public Logs(int perspective){
         _loggedValues = new HashMap<>();
+        _gradients = new ArrayList<>();
         _gradientNorms = new ArrayList<>();
         _rewards = new ArrayList<>();
         _averageRewards = new ArrayList<>();
@@ -31,7 +33,17 @@ public class Logs {
     }
 
     public void logGradientNorm(Double norm){
-        _gradientNorms.add(norm);
+        _gradients.add(norm);
+    }
+
+    public void averageGradient(){
+        double sum = 0;
+        for(Double gradient : _gradients){
+            sum += gradient;
+        }
+        double average = sum / _gradients.size();
+        _gradientNorms.add(average);
+        _gradients.clear();
     }
 
     public void logReward(Double reward){

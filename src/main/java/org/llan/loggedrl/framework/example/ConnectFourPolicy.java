@@ -12,6 +12,7 @@ public class ConnectFourPolicy extends EpsilonGreedy {
         super(epsilon, player.getId() - 1);
         _playerId = player.getId();
         setValueFunction(new ConnectFourFunction(player, game));
+        setEpsilonDecay(AIConstants.EPSILON_DECAY);
         loadParams();
     }
 

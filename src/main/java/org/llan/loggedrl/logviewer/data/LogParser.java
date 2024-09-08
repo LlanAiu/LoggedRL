@@ -9,7 +9,7 @@ import java.util.List;
 
 public class LogParser {
 
-    private static final String _location = System.getProperty("user.dir") + "\\src\\main\\resources\\org\\llan\\loggedrl\\data\\";
+    private static final String _location = System.getProperty("user.dir") + "\\data\\";
 
     public static Log[] parseLogFile(String filePath) {
         File file = new File(_location + filePath);

@@ -50,6 +50,11 @@ public class End extends State {
     }
 
     @Override
+    public void freeze() {
+        this._environment = this._environment.frozenCopy();
+    }
+
+    @Override
     public State copy(Environment copyEnvironment) {
         return new End((ConnectFour) copyEnvironment, _nextPlayer);
     }

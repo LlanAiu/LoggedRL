@@ -28,4 +28,5 @@ public abstract class State {
     public abstract void periodic();
     public abstract void transition();
     public abstract State copy(Environment copyEnvironment);
+    public abstract void freeze();
 }

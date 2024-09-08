@@ -20,7 +20,7 @@ public class ModelFunction extends Function {
     @Override
     public double valueOf(State state) {
         if(state.isTerminal()){
-
+            return 0.0;
         }
         return state.getFeature().getMatrix().multiply(_weights.transpose()).get(0, 0);
     }

@@ -3,7 +3,7 @@ package org.llan.loggedrl.framework.logging;
 import java.io.*;
 
 public class RLLogger {
-    private final String _location = System.getProperty("user.dir") + "\\src\\main\\resources\\org\\llan\\loggedrl\\data\\";
+    private final String _location = System.getProperty("user.dir") + "\\data\\";
     private String _filename = "log.txt";
 
     private Logs[] _logs;
@@ -38,6 +38,10 @@ public class RLLogger {
 
     public void logGradient(int perspective, double norm){
         _logs[perspective].logGradientNorm(norm);
+    }
+
+    public void averageGradient(int perspective){
+        _logs[perspective].averageGradient();
     }
 
     public void logReward(int perspective, double reward){

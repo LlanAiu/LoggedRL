@@ -2,6 +2,7 @@ package org.llan.loggedrl.framework.functions;
 
 import org.llan.loggedrl.framework.environment.Action;
 import org.llan.loggedrl.framework.environment.State;
+import org.llan.loggedrl.framework.example.AIConstants;
 import org.llan.loggedrl.framework.save.DataSaver;
 import org.llan.loggedrl.framework.util.Matrix;
 
@@ -10,7 +11,7 @@ public abstract class Function {
 
     public Function(int length){
         _weights = new Matrix(1, length);
-        _weights.fill(-0.2, 0.2);
+        _weights.fill(AIConstants.STARTING_MIN, AIConstants.STARTING_MAX);
     }
 
     public void updateWeights(Matrix update){
@@ -19,7 +20,7 @@ public abstract class Function {
 
     public void load(String filename){
         Matrix matrix = DataSaver.loadMatrixFromFile(filename);
-        if(matrix != null && matrix.getRows() == _weights.getRows() && matrix.getCols() == _weights.getCols()){
+        if(matrix != null && matrix.getCols() == _weights.getRows() && matrix.getRows() == _weights.getCols()){
             _weights = matrix.transpose();
         }
     }

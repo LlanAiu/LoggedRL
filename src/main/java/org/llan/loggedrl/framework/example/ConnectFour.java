@@ -1,5 +1,6 @@
 package org.llan.loggedrl.framework.example;
 
+import org.llan.loggedrl.framework.environment.Environment;
 import org.llan.loggedrl.framework.environment.EpisodicEnvironment;
 import org.llan.loggedrl.framework.environment.State;
 import org.llan.loggedrl.framework.logging.Record;
@@ -15,8 +16,8 @@ public class ConnectFour extends EpisodicEnvironment implements Modelled<Connect
     public ConnectFour(){
         _player1 = new Player(Constants.PLAYER1);
         _player2 = new Player(Constants.PLAYER2);
-        _player1.setPolicy(new ConnectFourPolicy(0.8, _player1, this));
-        _player2.setPolicy(new ConnectFourPolicy(0.8, _player2, this));
+        _player1.setPolicy(new ConnectFourPolicy(AIConstants.STARTING_EPSILON, _player1, this));
+        _player2.setPolicy(new ConnectFourPolicy(AIConstants.STARTING_EPSILON, _player2, this));
         _board = new Board();
         setInitialState(new Turn(_player1, 0, this));
         _record = new Record(2);
@@ -100,5 +101,10 @@ public class ConnectFour extends EpisodicEnvironment implements Modelled<Connect
         ConnectFour copy = new ConnectFour(_player1, _player2, _board.copy());
         copy.setState(state.copy(copy));
         return copy;
+    }
+
+    @Override
+    public Environment frozenCopy() {
+        return new ConnectFour(_player1, _player2, _board.copy());
     }
 }

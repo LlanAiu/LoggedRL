@@ -36,7 +36,9 @@ public class Record {
         }
         for(int i = 0; i < _perspectives.length; i++){
             RLLogger.getInstance().logReward(i, _rewards[i]);
+            RLLogger.getInstance().averageGradient(i);
         }
+
     }
 
     public TimeStep getLast(int perspective) {
