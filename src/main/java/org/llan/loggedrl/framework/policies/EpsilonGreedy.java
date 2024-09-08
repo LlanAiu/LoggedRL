@@ -33,7 +33,9 @@ public class EpsilonGreedy extends Policy{
 
     @Override
     public Action getAction(List<Action> actions, State state) {
+
         RLLogger.getInstance().recordDouble(_perspective, "epsilon", _epsilon);
+
         if (Math.random() < _epsilon) {
             _epsilon *= _epsilonDecay;
             return actions.get((int)(Math.random() * actions.size()));
