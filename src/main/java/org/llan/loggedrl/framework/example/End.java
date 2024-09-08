@@ -8,15 +8,15 @@ import org.llan.loggedrl.framework.environment.State;
 import java.util.List;
 
 public class End extends State {
-    private int _winner;
+    private Player _nextPlayer;
 
-    public End(ConnectFour game){
+    public End(ConnectFour game, Player nextPlayer){
         super(game);
-        _winner = game.getWinner();
+        _nextPlayer = nextPlayer;
     }
 
-    public int getWinner(){
-        return _winner;
+    public int getOtherPlayerId() {
+        return _nextPlayer.getId();
     }
 
     @Override
@@ -51,6 +51,6 @@ public class End extends State {
 
     @Override
     public State copy(Environment copyEnvironment) {
-        return new End((ConnectFour) copyEnvironment);
+        return new End((ConnectFour) copyEnvironment, _nextPlayer);
     }
 }

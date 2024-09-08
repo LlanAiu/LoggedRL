@@ -1,7 +1,7 @@
 package org.llan.loggedrl.framework.util;
 
 public class Matrix {
-    private double[][] _matrix;
+    private final double[][] _matrix;
 
     public Matrix(int rows, int cols){
         _matrix = new double[rows][cols];
@@ -78,5 +78,46 @@ public class Matrix {
         }
 
         return result;
+    }
+
+    public Matrix scale(double scalar){
+        Matrix result = new Matrix(getRows(), getCols());
+
+        for(int i = 0; i < getRows(); i++){
+            for(int j = 0; j < getCols(); j++){
+                result.set(i, j, get(i, j) * scalar);
+            }
+        }
+
+        return result;
+    }
+
+    public String toDataString(){
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < getRows(); i++){
+            for(int j = 0; j < getCols(); j++){
+                sb.append(get(i, j));
+                if(j < getCols() - 1){
+                    sb.append(",");
+                }
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < getRows(); i++){
+            for(int j = 0; j < getCols(); j++){
+                sb.append(get(i, j));
+                if(j < getCols() - 1){
+                    sb.append(" ");
+                }
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
     }
 }

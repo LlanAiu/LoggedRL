@@ -1,5 +1,7 @@
 package org.llan.loggedrl.framework.environment;
 
+import org.llan.loggedrl.framework.logging.Record;
+
 public abstract class Environment {
     State _currentState;
     boolean _setInitialState;
@@ -23,4 +25,6 @@ public abstract class Environment {
     }
 
     public abstract double getReward(int perspective);
+
+    public abstract Record getRecord();
 }

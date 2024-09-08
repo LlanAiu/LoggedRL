@@ -21,17 +21,4 @@ public class ConnectFourModel implements Model {
         copyAction.execute();
         return copy.getState();
     }
-
-    @Override
-    public double getReward(State state, Action action) {
-        if(state.isTerminal()){
-            int winningIndex = ((End) state).getWinner();
-            if(winningIndex == 0){
-                return Constants.DRAW;
-            } else {
-                return winningIndex == _player.getId() ? Constants.WIN : -Constants.LOSS;
-            }
-        }
-        return 0;
-    }
 }

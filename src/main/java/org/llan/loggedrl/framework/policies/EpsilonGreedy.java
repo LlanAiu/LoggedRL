@@ -12,9 +12,18 @@ public class EpsilonGreedy extends Policy{
         _epsilon = epsilon;
     }
 
+    public double getEpsilon() {
+        return _epsilon;
+    }
+
+    public void setEpsilon(double epsilon) {
+        _epsilon = epsilon;
+    }
+
     @Override
     public Action getAction(List<Action> actions, State state) {
         if (Math.random() < _epsilon) {
+            _epsilon *= 0.99;
             return actions.get((int)(Math.random() * actions.size()));
         } else {
             Action bestAction = actions.get(0);

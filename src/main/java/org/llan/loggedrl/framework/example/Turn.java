@@ -43,13 +43,14 @@ public class Turn extends State {
     @Override
     public Feature getFeature() {
         Feature feature = new Feature(Constants.FEATURE_LENGTH);
+        int otherId = ((ConnectFour) _environment).getOther(_player).getId();
         for(int p = 0; p < 2; p++){
             for(int i = 0; i < 6; i++){
                 for(int j = 0; j < 7; j++){
                     if(p == 0){
                         feature.setValue(i * 7 + j, ((ConnectFour) _environment).getBoard().getValue(i, j) == _player.getId() ? 1 : 0);
                     } else {
-                        feature.setValue(i * 7 + j + 42, ((ConnectFour) _environment).getBoard().getValue(i, j) == -_player.getId() ? 1 : 0);
+                        feature.setValue(i * 7 + j + 42, ((ConnectFour) _environment).getBoard().getValue(i, j) == otherId ? 1 : 0);
                     }
                 }
             }
@@ -71,16 +72,17 @@ public class Turn extends State {
     public void transition() {
         System.out.println("Board: \n" + ((ConnectFour) _environment).getBoard().toString());
         if(((ConnectFour) _environment).getBoard().checkWin(_player.getId()) || _turnNumber == 41){
-            _environment.setState(new End((ConnectFour) _environment));
-            return;
+            _environment.setState(new End((ConnectFour) _environment, ((ConnectFour) _environment).getOther(_player)));
+        } else {
+            _environment.setState(new Turn(
+                    ((ConnectFour) _environment).getOther(_player),
+                    _turnNumber + 1,
+                    (ConnectFour) _environment)
+            );
         }
-        _environment.setState(new Turn(
-                ((ConnectFour) _environment).getOther(_player),
-                _turnNumber + 1,
-                (ConnectFour) _environment)
-        );
         step.setReward(_environment.getReward(_player.getId()));
         ((ConnectFour) _environment).record(_player.getId(), step);
+        CFIterator.getInstance().update(_player.getId());
     }
 
     @Override

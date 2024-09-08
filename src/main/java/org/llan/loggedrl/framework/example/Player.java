@@ -18,6 +18,10 @@ public class Player {
         _policy = policy;
     }
 
+    public Policy getPolicy(){
+        return _policy;
+    }
+
     public int getId(){
         return _id;
     }

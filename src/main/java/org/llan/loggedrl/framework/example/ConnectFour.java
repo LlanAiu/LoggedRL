@@ -7,37 +7,37 @@ import org.llan.loggedrl.framework.logging.TimeStep;
 import org.llan.loggedrl.framework.model.Modelled;
 
 public class ConnectFour extends EpisodicEnvironment implements Modelled<ConnectFour> {
-    Player player1;
-    Player player2;
-    Board board;
-    Record record;
+    Player _player1;
+    Player _player2;
+    Board _board;
+    Record _record;
 
     public ConnectFour(){
-        player1 = new Player(Constants.PLAYER1);
-        player2 = new Player(Constants.PLAYER2);
-        player1.setPolicy(new ConnectFourPolicy(0.05, player1, this));
-        player2.setPolicy(new ConnectFourPolicy(0.05, player2, this));
-        board = new Board();
-        setInitialState(new Turn(player1, 0, this));
-        record = new Record(2);
+        _player1 = new Player(Constants.PLAYER1);
+        _player2 = new Player(Constants.PLAYER2);
+        _player1.setPolicy(new ConnectFourPolicy(0.8, _player1, this));
+        _player2.setPolicy(new ConnectFourPolicy(0.8, _player2, this));
+        _board = new Board();
+        setInitialState(new Turn(_player1, 0, this));
+        _record = new Record(2);
     }
 
     public ConnectFour(Player player1, Player player2, Board board){
-        this.player1 = player1;
-        this.player2 = player2;
-        this.board = board;
+        this._player1 = player1;
+        this._player2 = player2;
+        this._board = board;
     }
 
     public Board getBoard(){
-        return board;
+        return _board;
     }
 
     public Player getOther(Player player){
-        return player == player1 ? player2 : player1;
+        return player == _player1 ? _player2 : _player1;
     }
 
     public void play(int column, Player player){
-        board.place(column, player.getId());
+        _board.place(column, player.getId());
         nextTurn();
     }
 
@@ -46,17 +46,22 @@ public class ConnectFour extends EpisodicEnvironment implements Modelled<Connect
     }
 
     public int getWinner(){
-        if(board.checkWin(player1.getId())){
-            return player1.getId();
-        } else if(board.checkWin(player2.getId())){
-            return player2.getId();
+        if(_board.checkWin(_player1.getId())){
+            return _player1.getId();
+        } else if(_board.checkWin(_player2.getId())){
+            return _player2.getId();
         } else {
             return 0;
         }
     }
 
     public void record(int player, TimeStep step){
-        record.addTimeStep(player, step);
+        _record.addTimeStep(player, step);
+    }
+
+    @Override
+    public Record getRecord(){
+        return _record;
     }
 
     @Override
@@ -73,18 +78,26 @@ public class ConnectFour extends EpisodicEnvironment implements Modelled<Connect
     }
 
     public void onEnd(){
-        if(board.checkWin(player1.getId())){
+        _record.endOfEpisode(getWinner());
+        CFIterator.getInstance().update(((End) getState()).getOtherPlayerId());
+        if(_board.checkWin(_player1.getId())){
             System.out.println("Player 1 wins");
-        } else if(board.checkWin(player2.getId())){
+        } else if(_board.checkWin(_player2.getId())){
             System.out.println("Player 2 wins");
         } else {
             System.out.println("Draw");
         }
+        saveAll();
+    }
+
+    public void saveAll(){
+        _player1.getPolicy().save("p1_data.txt");
+        _player2.getPolicy().save("p2_data.txt");
     }
 
     @Override
     public ConnectFour shallowClone(State state) {
-        ConnectFour copy = new ConnectFour(player1, player2, board.copy());
+        ConnectFour copy = new ConnectFour(_player1, _player2, _board.copy());
         copy.setState(state.copy(copy));
         return copy;
     }

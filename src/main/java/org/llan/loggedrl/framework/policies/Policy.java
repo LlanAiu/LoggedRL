@@ -13,5 +13,20 @@ public abstract class Policy {
         this._valueFunction = valueFunction;
     }
 
+    public Function getValueFunction(){
+        return _valueFunction;
+    }
+
+    public void save(String path){
+        _valueFunction.save(path);
+        saveParams();
+    }
+
+    public void saveParams() {
+
+    }
+    public void loadParams() {
+
+    }
     public abstract Action getAction(List<Action> actions, State state);
 }
