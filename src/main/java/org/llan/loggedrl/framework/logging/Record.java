@@ -34,6 +34,9 @@ public class Record {
                 }
             }
         }
+        for(int i = 0; i < _perspectives.length; i++){
+            RLLogger.getInstance().logReward(i, _rewards[i]);
+        }
     }
 
     public TimeStep getLast(int perspective) {

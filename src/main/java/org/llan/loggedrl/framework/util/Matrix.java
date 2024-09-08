@@ -92,6 +92,18 @@ public class Matrix {
         return result;
     }
 
+    public double norm() {
+        if(getCols() != 1){
+            throw new IllegalArgumentException("Matrix is not a column vector");
+        } else {
+            double sum = 0;
+            for(int i = 0; i < getRows(); i++){
+                sum += Math.pow(get(i, 0), 2);
+            }
+            return Math.sqrt(sum);
+        }
+    }
+
     public String toDataString(){
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i < getRows(); i++){

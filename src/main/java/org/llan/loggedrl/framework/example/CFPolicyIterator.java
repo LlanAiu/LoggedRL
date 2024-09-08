@@ -12,7 +12,7 @@ public class CFPolicyIterator extends PolicyIterator {
     private int _playerId;
 
     public CFPolicyIterator(int playerId, Policy policy){
-        super(policy);
+        super(policy, playerId);
         _playerId = playerId;
     }
 

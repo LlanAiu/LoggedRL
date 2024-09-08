@@ -2,10 +2,12 @@ package org.llan.loggedrl.framework;
 
 import org.llan.loggedrl.framework.example.CFIterator;
 import org.llan.loggedrl.framework.example.ConnectFour;
+import org.llan.loggedrl.framework.logging.RLLogger;
 
 public class Main {
 
     public static void main(String[] args) {
+        RLLogger.getInstance().setSize(2);
 
         for(int i = 0; i < 100; i++){
             ConnectFour game = new ConnectFour();
@@ -13,6 +15,7 @@ public class Main {
             game.run();
         }
 
+        RLLogger.getInstance().writeLog();
     }
 
 }
